@@ -9,7 +9,7 @@ import logger from './src/utils/logger.js';
 const app = express();
 const port = 3001;
 
-const allowedOrigins = ['http://localhost:3000'];
+const allowedOrigins = [''];
 const corsOptions = {
 	origin: (origin, callback) => {
 		if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
@@ -24,8 +24,11 @@ const corsOptions = {
 const limiter = rateLimit({
 	windowMs: 15 * 60 * 1000,
 	max: 20,
-	message:
-		{success: false, message: 'Demasiadas solicitudes desde esta IP, por favor intente de nuevo en 15 minutos.'},
+	message: {
+		success: false,
+		message:
+			'Demasiadas solicitudes desde esta IP, por favor intente de nuevo en 15 minutos.',
+	},
 });
 
 app.use(cors(corsOptions));
