@@ -1,9 +1,22 @@
+import EmployeeRepository from '../repositories/EmployeeRepository.js';
+import logger from '../utils/logger.js';
+
 export default class EmployeeService {
+	constructor() {
+		this.repo = new EmployeeRepository();
+	}
+
 	async getEmployees() {
 		try {
-            return [{success: true, message: "Ok"}, 200]
+			const response = await this.repo.getEmployees();
+			return [{ success: true, response }, 200];
 		} catch (error) {
-			throw new Error("CATH ERROR: ", error);
+			return this.handleError('getEmployees', error);
 		}
+	}
+
+	async handleError(method, error) {
+		logger.error(`Error en el servicio - ${method}() : ${error.message}`);
+		throw new Error(`Error en el servicio - ${method}() : ${error.message}`);
 	}
 }
