@@ -24,7 +24,7 @@ export default class RuleRepository {
 			cont++;
 		}
 		if (country_name) {
-			params.push(`c.name = $${cont}`);
+			params.push(`lower(c.name) = lower($${cont})`);
 			values.push(country_name);
 			cont++;
 		}

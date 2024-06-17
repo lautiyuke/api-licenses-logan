@@ -14,7 +14,7 @@ export default class RulesService {
 				: [
 						{
 							success: false,
-							message: 'No hay ninguna regla que cumpla con esos parametros',
+							message: 'No hay ninguna regla que cumpla con esos parametros.',
 						},
 						200,
 				  ];
