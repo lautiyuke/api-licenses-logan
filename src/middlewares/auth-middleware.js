@@ -1,4 +1,3 @@
-// auth-middleware.js
 import jwt from 'jsonwebtoken';
 import logger from '../utils/logger.js';
 
@@ -8,7 +7,7 @@ const authMiddleware = (minAccessLevel) => (req, res, next) => {
 	if (!token) {
 		return res.status(401).json({
 			success: false,
-			message: 'Acceso denegado. No token proporcionado.',
+			message: 'Acceso denegado. No se ha proporcionado un token.',
 		});
 	}
 
@@ -19,7 +18,7 @@ const authMiddleware = (minAccessLevel) => (req, res, next) => {
 		});
 	}
 
-	const jwtToken = token.slice(7); // Elimina 'Bearer ' del token
+	const jwtToken = token.slice(7);
 	try {
 		const decoded = jwt.verify(jwtToken, process.env.JWT_SECRET);
 		req.employee = decoded;
@@ -35,7 +34,7 @@ const authMiddleware = (minAccessLevel) => (req, res, next) => {
 		res.status(401).json({
 			success: false,
 			message:
-				error.message == 'jwt expired' ? 'Token expirado.' : 'Token invalido.',
+				error.message === 'jwt expired' ? 'Token expirado.' : 'Token inválido.',
 		});
 	}
 };

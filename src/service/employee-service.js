@@ -13,7 +13,9 @@ export default class EmployeeService {
 	async getEmployees() {
 		try {
 			const response = await this.repo.getEmployees();
-			return [{ success: true, response }, 200];
+			return response.length > 0
+				? [{ success: true, response }, 200]
+				: [{ success: false, message: 'No hay ningún empleado actualmente.' }, 204];
 		} catch (error) {
 			return this.handleError('getEmployees', error);
 		}
@@ -26,9 +28,9 @@ export default class EmployeeService {
 				return [
 					{
 						success: false,
-						message: 'El email no puede estar vacio',
+						message: 'El email no puede estar vacío',
 					},
-					401,
+					400,
 				];
 			}
 			const employee = await this.repo.getEmployee(email);
@@ -38,7 +40,7 @@ export default class EmployeeService {
 
 			const isMatch = await bcrypt.compare(password, employee.password);
 			if (!isMatch) {
-				return [{ success: true, message: 'Contraseña Incorrecta' }, 401];
+				return [{ success: false, message: 'Contraseña Incorrecta' }, 401];
 			}
 			delete employee.password;
 
@@ -51,7 +53,7 @@ export default class EmployeeService {
 			return [
 				{
 					success: true,
-					message: 'Sesion iniciada correctamente',
+					message: 'Sesión iniciada correctamente',
 					employee,
 					token,
 				},
@@ -74,7 +76,7 @@ export default class EmployeeService {
 	}
 
 	async handleError(method, error) {
-		logger.error(`Error en el servicio - ${method}() : ${error.message}`);
-		throw new Error(`Error en el servicio - ${method}() : ${error.message}`);
+		logger.error(`EmployeeService Error - ${method}() : ${error.message}`);
+		throw new Error(`EmployeeService Error - ${method}() : ${error.message}`);
 	}
 }
