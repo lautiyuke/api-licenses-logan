@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
-import EmployeeRepository from '../repositories/EmployeeRepository.js';
+import EmployeeRepository from '../repositories/employee-repository.js';
 import logger from '../utils/logger.js';
 
 const { JWT_SECRET } = process.env;
@@ -66,7 +66,7 @@ export default class EmployeeService {
 		const { name, surname, email, password } = body;
 		try {
 			const hashedPassword = await bcrypt.hash(password, 10);
-			await this.repo.register(name, surname, email, hashedPassword);
+			await this.repo.addEmployee(name, surname, email, hashedPassword);
 			return [{ success: true, message: 'Empleado creado correctamente' }, 201];
 		} catch (error) {
 			return this.handleError('register', error);

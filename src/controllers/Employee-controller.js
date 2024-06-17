@@ -1,9 +1,6 @@
 import { Router } from 'express';
-import EmployeeService from '../service/EmployeeService.js';
-import {
-	authMiddleware,
-	authorizeMiddleware,
-} from '../middlewares/auth-middleware.js';
+import EmployeeService from '../service/employee-service.js';
+import { authMiddleware } from '../middlewares/auth-middleware.js';
 
 const router = Router();
 const svc = new EmployeeService();
@@ -19,8 +16,7 @@ const handleRequest = (serviceMethod) => async (req, res, next) => {
 
 router.get(
 	'/',
-	authMiddleware,
-	authorizeMiddleware(3),
+	authMiddleware(3),
 	handleRequest((req) => svc.getEmployees()),
 );
 

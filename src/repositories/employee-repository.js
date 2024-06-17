@@ -28,7 +28,7 @@ export default class EmployeeRepository {
 		}
 	}
 
-	async register(name, surname, email, password) {
+	async addEmployee(name, surname, email, password) {
 		const client = await pool.connect();
 		try {
 			await client.query(
