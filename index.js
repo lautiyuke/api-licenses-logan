@@ -3,6 +3,7 @@ import cors from 'cors';
 import rateLimit from 'express-rate-limit';
 import morgan from 'morgan';
 import EmployeeRouter from './src/controllers/Employee-controller.js';
+import RuleController from './src/controllers/rule-controller.js';
 import errorHandler from './src/utils/error-handler.js';
 import logger from './src/utils/logger.js';
 
@@ -37,6 +38,7 @@ app.use(morgan('combined', { stream: logger.stream }));
 app.use(limiter);
 
 app.use('/api/employees', EmployeeRouter);
+app.use('/api/rules', RuleController);
 app.use(errorHandler);
 
 app.listen(port, () => {
