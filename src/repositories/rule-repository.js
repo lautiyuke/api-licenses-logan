@@ -11,22 +11,33 @@ export default class RuleRepository {
 			'SELECT r.id, r.country_id, c.name as country_name, r.rule FROM rules as r INNER JOIN countries as c on c.id = r.country_id';
 
 		const params = [];
-		if (rule_id !== null && rule_id !== undefined) {
-			params.push(`r.id = ${rule_id}`);
+		const values = [];
+		let cont = 1;
+		if (rule_id) {
+			params.push(`r.id = $${cont}`);
+			values.push(rule_id);
+			cont++;
 		}
-		if (country_id !== null && country_id !== undefined) {
-			params.push(`r.country_id = ${country_id}`);
+		if (country_id) {
+			params.push(`r.country_id = $${cont}`);
+			values.push(country_id);
+			cont++;
 		}
-		if (country_name !== null && country_name !== undefined) {
-			params.push(`c.name = '${country_name}'`);
+		if (country_name) {
+			params.push(`c.name = $${cont}`);
+			values.push(country_name);
+			cont++;
 		}
 
 		if (params.length > 0) {
 			query += ' WHERE ' + params.join(' AND ');
 		}
 
+		console.log(query);
+		console.log(values);
+
 		try {
-			const result = await client.query(query);
+			const result = await client.query(query, values);
 			return result.rows;
 		} finally {
 			client.release();
@@ -35,6 +46,8 @@ export default class RuleRepository {
 
 	async addRule(country_id, rule) {
 		const client = await pool.connect();
+		console.log(country_id);
+		console.log(rule);
 		try {
 			await client.query('INSERT INTO rules (country_id, rule) VALUES ($1, $2)', [
 				country_id,
