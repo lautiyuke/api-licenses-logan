@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import EmployeeRepository from '../repositories/employee-repository.js';
 import logger from '../utils/logger.js';
 
