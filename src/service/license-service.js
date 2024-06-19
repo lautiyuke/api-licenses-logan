@@ -8,7 +8,7 @@ export default class LicenseService {
 
 	async getLicenses(req) {
 		try {
-			const response = await this.repo.getLicenses();
+			const response = await this.repo.getLicenses(req.query);
 			return response.length > 0
 				? [{ success: true, response }, 200]
 				: [
@@ -32,13 +32,47 @@ export default class LicenseService {
 		}
 	}
 
+	async updateLicense(req) {
+		try {
+			const id = parseInt(req.params.id);
+			const existingLicense = await this.repo.getLicenses({ id });
+			const { reason_id, other_reason, start_date, end_date, state } = req.body;
+			if (!reason_id && !other_reason && !start_date && !end_date && !state) {
+				return [
+					{ success: false, message: 'No hay ningun dato para actualizar.' },
+					400,
+				];
+			}
+			if (existingLicense.length > 0) {
+				await this.repo.updateLicense(id, req.body);
+				return [
+					{ success: true, message: 'Licencia actualizada correctamente' },
+					201,
+				];
+			}
+			return [
+				{ success: false, message: 'No existe una licencia con ese ID.' },
+				400,
+			];
+		} catch (error) {
+			return this.handleError('updateLicense', error);
+		}
+	}
+
 	async deleteLicense(req) {
 		try {
 			const id = req.params.id;
-			await this.repo.deleteLicense(id);
+			const existingLicense = await this.repo.getLicenses({ id });
+			if (existingLicense.length > 0) {
+				await this.repo.deleteLicense(id);
+				return [
+					{ success: true, message: 'Licencia eliminada correctamente.' },
+					202,
+				];
+			}
 			return [
-				{ success: true, message: 'Licencia eliminada correctamente.' },
-				202,
+				{ success: false, message: 'No existe una licencia con ese ID.' },
+				400,
 			];
 		} catch (error) {
 			return this.handleError('deleteLicense', error);

@@ -26,6 +26,12 @@ router.post(
 	handleRequest((req) => svc.addLicense(req)),
 );
 
+router.post(
+	'/:id',
+	authMiddleware(3),
+	handleRequest((req) => svc.updateLicense(req)),
+);
+
 router.delete(
 	'/:id',
 	authMiddleware(3),
