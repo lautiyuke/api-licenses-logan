@@ -58,9 +58,9 @@ export default class RulesService {
 			const rule = await this.repo.getRules({ rule_id });
 			if (rule.length > 0) {
 				await this.repo.deleteRule(rule_id);
-				return [{ success: true, message: 'Regla eliminada correctamente' }, 202];
+				return [{ success: true, message: 'Regla eliminada correctamente.' }, 202];
 			}
-			return [{ success: false, message: 'No existe una regla con ese ID' }, 400];
+			return [{ success: false, message: 'No existe una regla con ese ID.' }, 400];
 		} catch (error) {
 			return this.handleError('deleteRule', error);
 		}

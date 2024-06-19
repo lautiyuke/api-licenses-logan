@@ -46,9 +46,9 @@ export default class CountryService {
 			const existingCountry = await this.repo.getCountries({ id });
 			if (existingCountry.length > 0) {
 				await this.repo.deleteCountry(id);
-				return [{ success: true, message: 'Pais eliminado correctamente' }, 202];
+				return [{ success: true, message: 'Pais eliminado correctamente.' }, 202];
 			}
-			return [{ success: false, message: 'No existe un pais con ese ID' }, 400];
+			return [{ success: false, message: 'No existe un pais con ese ID.' }, 400];
 		} catch (error) {
 			return this.handleError('deleteCountry', error);
 		}

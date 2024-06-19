@@ -43,9 +43,9 @@ export default class ReasonService {
 			const existingReason = await this.repo.getReasons({ id });
 			if (existingReason.length > 0) {
 				await this.repo.deleteReason(id);
-				return [{ success: true, message: 'Razon eliminada correctamente' }, 202];
+				return [{ success: true, message: 'Razon eliminada correctamente.' }, 202];
 			}
-			return [{ success: false, message: 'No existe esa razon' }, 400];
+			return [{ success: false, message: 'No existe esa razon.' }, 400];
 		} catch (error) {
 			return this.handleError('deleteReason', error);
 		}

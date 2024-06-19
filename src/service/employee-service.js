@@ -28,19 +28,19 @@ export default class EmployeeService {
 				return [
 					{
 						success: false,
-						message: 'El email no puede estar vacío',
+						message: 'El email no puede estar vacío.',
 					},
 					400,
 				];
 			}
 			const employee = await this.repo.getEmployee(email);
 			if (!employee) {
-				return [{ success: false, message: 'Empleado no encontrado' }, 404];
+				return [{ success: false, message: 'Empleado no encontrado.' }, 404];
 			}
 
 			const isMatch = await bcrypt.compare(password, employee.password);
 			if (!isMatch) {
-				return [{ success: false, message: 'Contraseña Incorrecta' }, 401];
+				return [{ success: false, message: 'Contraseña Incorrecta.' }, 401];
 			}
 			delete employee.password;
 
@@ -53,7 +53,7 @@ export default class EmployeeService {
 			return [
 				{
 					success: true,
-					message: 'Sesión iniciada correctamente',
+					message: 'Sesión iniciada correctamente.',
 					employee,
 					token,
 				},
@@ -69,7 +69,7 @@ export default class EmployeeService {
 		try {
 			const hashedPassword = await bcrypt.hash(password, 10);
 			await this.repo.addEmployee(name, surname, email, hashedPassword);
-			return [{ success: true, message: 'Empleado creado correctamente' }, 201];
+			return [{ success: true, message: 'Empleado creado correctamente.' }, 201];
 		} catch (error) {
 			return this.handleError('register', error);
 		}
