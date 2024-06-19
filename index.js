@@ -6,6 +6,7 @@ import EmployeeRouter from './src/controllers/Employee-controller.js';
 import RuleController from './src/controllers/rule-controller.js';
 import CountryController from './src/controllers/country-controller.js';
 import ReasonController from './src/controllers/reason-controller.js';
+import LicenseController from './src/controllers/license-controller.js';
 import errorHandler from './src/utils/error-handler.js';
 import logger from './src/utils/logger.js';
 
@@ -43,6 +44,7 @@ app.use('/api/employees', EmployeeRouter);
 app.use('/api/rules', RuleController);
 app.use('/api/countries', CountryController);
 app.use('/api/reasons', ReasonController);
+app.use('/api/licenses', LicenseController);
 app.use(errorHandler);
 
 app.listen(port, () => {
