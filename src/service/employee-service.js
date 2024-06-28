@@ -10,9 +10,9 @@ export default class EmployeeService {
 		this.repo = new EmployeeRepository();
 	}
 
-	async getEmployees() {
+	async getEmployees(req) {
 		try {
-			const response = await this.repo.getEmployees();
+			const response = await this.repo.getEmployees(req.query);
 			return response.length > 0
 				? [{ success: true, response }, 200]
 				: [{ success: false, message: 'No hay ningún empleado actualmente.' }, 204];
@@ -33,7 +33,7 @@ export default class EmployeeService {
 					400,
 				];
 			}
-			const employee = await this.repo.getEmployee(email);
+			const [employee] = await this.repo.getEmployees({ email });
 			if (!employee) {
 				return [{ success: false, message: 'Empleado no encontrado.' }, 404];
 			}

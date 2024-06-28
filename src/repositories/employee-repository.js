@@ -5,23 +5,41 @@ const { Pool } = pkg;
 const pool = new Pool(config);
 
 export default class EmployeeRepository {
-	async getEmployee(email) {
+	async getEmployees({ id, name, surname, email }) {
 		const client = await pool.connect();
-		try {
-			const result = await client.query(
-				`SELECT * FROM employees WHERE (email = $1 AND $1 IS NOT NULL)`,
-				[email],
-			);
-			return result.rows[0];
-		} finally {
-			client.release();
-		}
-	}
+		let query = 'SELECT * FROM employees';
 
-	async getEmployees() {
-		const client = await pool.connect();
+		const params = [];
+		const values = [];
+		let cont = 1;
+
+		if (id) {
+			params.push(`id = $${cont}`);
+			values.push(id);
+			cont++;
+		}
+		if (name) {
+			params.push(`lower(name) = lower($${cont})`);
+			values.push(name);
+			cont++;
+		}
+		if (surname) {
+			params.push(`lower(surname) = lower($${cont})`);
+			values.push(surname);
+			cont++;
+		}
+		if (email) {
+			params.push(`lower(email) = lower($${cont})`);
+			values.push(email);
+			cont++;
+		}
+
+		if (params.length > 0) {
+			query += ' WHERE ' + params.join(' AND ');
+		}
+
 		try {
-			const result = await client.query('SELECT * FROM employees ORDER BY id');
+			const result = await client.query(query, values);
 			return result.rows;
 		} finally {
 			client.release();

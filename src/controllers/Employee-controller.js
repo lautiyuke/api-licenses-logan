@@ -17,7 +17,7 @@ const handleRequest = (serviceMethod) => async (req, res, next) => {
 router.get(
 	'/',
 	authMiddleware(3),
-	handleRequest((req) => svc.getEmployees()),
+	handleRequest((req) => svc.getEmployees(req)),
 );
 
 router.post(
