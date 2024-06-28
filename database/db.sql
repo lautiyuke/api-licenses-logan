@@ -5,7 +5,7 @@
 -- Dumped from database version 16.3
 -- Dumped by pg_dump version 16.3
 
--- Started on 2024-06-17 21:03:21
+-- Started on 2024-06-21 16:37:48
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -18,6 +18,10 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
+--
+-- TOC entry 864 (class 1247 OID 18862)
+-- Name: license_state; Type: TYPE; Schema: public; Owner: postgres
+--
 
 CREATE TYPE public.license_state AS ENUM (
     'waiting',
@@ -191,8 +195,6 @@ ALTER TABLE public.rules ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
 --
 
 INSERT INTO public.countries OVERRIDING SYSTEM VALUE VALUES (1, 'Argentina');
-INSERT INTO public.countries OVERRIDING SYSTEM VALUE VALUES (2, 'Brasil');
-INSERT INTO public.countries OVERRIDING SYSTEM VALUE VALUES (3, 'Chile');
 
 
 --
@@ -241,16 +243,16 @@ INSERT INTO public.reasons OVERRIDING SYSTEM VALUE VALUES (4, 'Embarazo');
 
 
 --
--- TOC entry 4887 (class 0 OID 0)
+-- TOC entry 4886 (class 0 OID 0)
 -- Dependencies: 216
 -- Name: countries_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.countries_id_seq', 3, true);
+SELECT pg_catalog.setval('public.countries_id_seq', 1, true);
 
 
 --
--- TOC entry 4888 (class 0 OID 0)
+-- TOC entry 4887 (class 0 OID 0)
 -- Dependencies: 218
 -- Name: employees_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -259,7 +261,7 @@ SELECT pg_catalog.setval('public.employees_id_seq', 5, true);
 
 
 --
--- TOC entry 4889 (class 0 OID 0)
+-- TOC entry 4888 (class 0 OID 0)
 -- Dependencies: 220
 -- Name: licenses_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -268,7 +270,7 @@ SELECT pg_catalog.setval('public.licenses_id_seq', 4, true);
 
 
 --
--- TOC entry 4890 (class 0 OID 0)
+-- TOC entry 4889 (class 0 OID 0)
 -- Dependencies: 223
 -- Name: reasons_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -277,7 +279,7 @@ SELECT pg_catalog.setval('public.reasons_id_seq', 4, true);
 
 
 --
--- TOC entry 4891 (class 0 OID 0)
+-- TOC entry 4890 (class 0 OID 0)
 -- Dependencies: 224
 -- Name: rules_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -366,7 +368,7 @@ ALTER TABLE ONLY public.rules
     ADD CONSTRAINT fk_rules_country_id FOREIGN KEY (country_id) REFERENCES public.countries(id) NOT VALID;
 
 
--- Completed on 2024-06-17 21:03:21
+-- Completed on 2024-06-21 16:37:48
 
 --
 -- PostgreSQL database dump complete

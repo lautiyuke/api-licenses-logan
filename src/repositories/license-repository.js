@@ -52,7 +52,7 @@ export default class LicenseRepository {
 			cont++;
 		}
 		if (state) {
-			params.push(`lower(state) = lower($${cont})`);
+			params.push(`state = $${cont}`);
 			values.push(state);
 			cont++;
 		}
@@ -75,13 +75,12 @@ export default class LicenseRepository {
 		other_reason,
 		start_date,
 		end_date,
-		state,
 	}) {
 		const client = await pool.connect();
 		try {
 			await client.query(
-				'INSERT INTO licenses (employee_id, reason_id, other_reason, start_date, end_date, state) VALUES ($1, $2, $3, $4, $5, $6)',
-				[employee_id, reason_id, other_reason, start_date, end_date, state],
+				'INSERT INTO licenses (employee_id, reason_id, other_reason, start_date, end_date) VALUES ($1, $2, $3, $4, $5)',
+				[employee_id, reason_id, other_reason, start_date, end_date],
 			);
 		} finally {
 			client.release();

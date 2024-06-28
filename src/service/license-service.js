@@ -1,9 +1,12 @@
 import LicenseRepository from '../repositories/license-repository.js';
+import EmployeeRepository from '../repositories/employee-repository.js';
+import checkValidLicense from '../utils/license-helper.js';
 import logger from '../utils/logger.js';
 
 export default class LicenseService {
 	constructor() {
 		this.repo = new LicenseRepository();
+		this.EmployeeRepo = new EmployeeRepository();
 	}
 
 	async getLicenses(req) {
@@ -25,7 +28,14 @@ export default class LicenseService {
 
 	async addLicense(req) {
 		try {
-			await this.repo.addLicense(req.body);
+			const { employee_id, reason_id, start_date, end_date } = req.body;
+			const [employee] = await this.EmployeeRepo.getEmployees({ id: employee_id });
+			const licenses = await this.repo.getLicenses({
+				employee_id,
+				state: 'taken',
+			});
+			checkValidLicense(employee, licenses, start_date, end_date);
+			//await this.repo.addLicense(req.body);
 			return [{ success: true, message: 'Licencia agregada correctamente.' }, 201];
 		} catch (error) {
 			return this.handleError('addLicense', error);
